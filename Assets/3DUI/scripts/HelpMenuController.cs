@@ -10,7 +10,7 @@ public class HelpMenuController : MonoBehaviour
     [Tooltip("If should reference the prebab: Assets/3DUI/prefabs/HelpMenu.prefab")]
     public GameObject menuPrefab;
 
-   
+
     private string defaultMenuPrefabPath = "Assets/3DUI/prefabs/HelpMenu.prefab";
     private GameObject menuInstanced;
     private InputDevice leftHandDevice;
@@ -35,9 +35,6 @@ public class HelpMenuController : MonoBehaviour
 
     private void GetLeftHandDevice()
     {
-        var inputDevices = new List<InputDevice>();
-        InputDevices.GetDevices(inputDevices);
-
         var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand
             | InputDeviceCharacteristics.Left
             | InputDeviceCharacteristics.Controller;

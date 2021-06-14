@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class Jumping: MonoBehaviour
+public class Jumping : MonoBehaviour
 {
     public string RayCollisionLayer = "Default";
 
     private InputDevice handDevice;
     private GameObject handControllerGameObject;
-    private GameObject trackingSpaceRoot; 
-   
+    private GameObject trackingSpaceRoot;
+
     private RaycastHit lastRayCastHit;
     private bool bButtonWasPressed = false;
 
@@ -18,7 +18,7 @@ public class Jumping: MonoBehaviour
     /// 
     ///  Events
     ///  
-   
+
     void Start()
     {
         getRightHandDevice();
@@ -40,12 +40,9 @@ public class Jumping: MonoBehaviour
 
     private void getRightHandDevice()
     {
-        var inputDevices = new List<InputDevice>();
-        InputDevices.GetDevices(inputDevices);
-
         var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand
-            | InputDeviceCharacteristics.Left
-            | InputDeviceCharacteristics.Controller;
+             | InputDeviceCharacteristics.Left
+             | InputDeviceCharacteristics.Controller;
 
         var rightHandedControllers = new List<InputDevice>();
         InputDevices.GetDevicesWithCharacteristics(desiredCharacteristics, rightHandedControllers);
@@ -84,24 +81,24 @@ public class Jumping: MonoBehaviour
             1 << LayerMask.NameToLayer(RayCollisionLayer))) // 1 << because must use bit shifting to get final mask!
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-           // Debug.Log("Ray collided with:  " + hit.collider.gameObject + " collision point: " + hit.point);
+            // Debug.Log("Ray collided with:  " + hit.collider.gameObject + " collision point: " + hit.point);
             Debug.DrawLine(hit.point, (hit.point + hit.normal * 2));
             lastRayCastHit = hit;
         }
     }
 
 
-    private void MoveTrackingSpaceRootWithJumping() 
+    private void MoveTrackingSpaceRootWithJumping()
     {
-        if (handDevice.isValid) 
+        if (handDevice.isValid)
         {
             if (handDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool triggerButton))
             {
-                if (!bButtonWasPressed &&  triggerButton && lastRayCastHit.collider != null)
+                if (!bButtonWasPressed && triggerButton && lastRayCastHit.collider != null)
                 {
                     bButtonWasPressed = true;
                 }
-                if(!triggerButton && bButtonWasPressed)
+                if (!triggerButton && bButtonWasPressed)
                 {
                     bButtonWasPressed = false;
                     trackingSpaceRoot.transform.position = lastRayCastHit.point;

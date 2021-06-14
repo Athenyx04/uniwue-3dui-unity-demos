@@ -56,9 +56,6 @@ public class RayPicking : MonoBehaviour
 
     private void GetRightHandDevice()
     {
-        var inputDevices = new List<InputDevice>();
-        InputDevices.GetDevices(inputDevices);
-
         var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand
             | InputDeviceCharacteristics.Right
             | InputDeviceCharacteristics.Controller;

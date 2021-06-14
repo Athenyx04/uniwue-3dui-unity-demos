@@ -38,9 +38,6 @@ public class ObjectFactoryMenuController : MonoBehaviour
 
     private void GetLeftHandDevice()
     {
-        var inputDevices = new List<InputDevice>();
-        InputDevices.GetDevices(inputDevices);
-
         var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand
             | InputDeviceCharacteristics.Left
             | InputDeviceCharacteristics.Controller;
@@ -145,7 +142,7 @@ public class ObjectFactoryMenuController : MonoBehaviour
             menuInstanced.SetActive(true); // just to make sure
         }
     }
-    
+
 
     public void Close()
     {

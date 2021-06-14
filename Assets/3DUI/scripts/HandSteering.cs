@@ -38,10 +38,8 @@ public class HandSteering: MonoBehaviour
 
     private void GetHandDevice()
     {
-        var inputDevices = new List<InputDevice>();
-        InputDevices.GetDevices(inputDevices);
-
-        var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand
+      
+       var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand
             | InputDeviceCharacteristics.Left
             | InputDeviceCharacteristics.Controller;
 
