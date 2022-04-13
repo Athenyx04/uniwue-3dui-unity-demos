@@ -1,4 +1,4 @@
-# ss21-3dui-getting-started-project
+# ss22-3dui-getting-started-project
 
 - check the getting-started scene and asset in the **Assets/3DUI** directory
 - The map to start is called:**Assets/3DUI/Scenes/3dui-getting-started.unity**
