@@ -1132,8 +1132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a99a14ee14e2a5542808969091d41ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedInMeterPerSecond: 1
-  angleInDegreePerSecond: 25
+  speedInMeterPerSecond: 30
+  angleInDegreePerSecond: 75
   anglePerClick: 45
 --- !u!114 &30328066
 MonoBehaviour:
@@ -23172,7 +23172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95fde79e4020716488fa62f11faf1ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  translationIncrement: 0.1
+  translationIncrement: 0.4
   rotationIncrement: 1
   thumbstickDeadZone: 0.5
   RayCollisionLayer: Default
