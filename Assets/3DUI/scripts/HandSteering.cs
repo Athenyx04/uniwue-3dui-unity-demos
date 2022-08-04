@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class HandSteering: MonoBehaviour
+public class HandSteering : MonoBehaviour
 {
     public float speedInMeterPerSecond = 1;
     public float angleInDegreePerSecond = 25;
@@ -38,10 +38,10 @@ public class HandSteering: MonoBehaviour
 
     private void GetHandDevice()
     {
-      
-       var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand
-            | InputDeviceCharacteristics.Left
-            | InputDeviceCharacteristics.Controller;
+
+        var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand
+             | InputDeviceCharacteristics.Left
+             | InputDeviceCharacteristics.Controller;
 
         var controller = new List<InputDevice>();
         InputDevices.GetDevicesWithCharacteristics(desiredCharacteristics, controller);
@@ -80,25 +80,25 @@ public class HandSteering: MonoBehaviour
                 {
                     isStickWasPressed = true;
                 }
-                else if(isStickWasPressed) // release
+                else if (isStickWasPressed) // release
                 {
                     bModeSnapRotation = !bModeSnapRotation;
                     isStickWasPressed = false;
-                    if(bModeSnapRotation) Debug.Log("Snap Turning Is ON");
+                    if (bModeSnapRotation) Debug.Log("Snap Turning Is ON");
                     else Debug.Log("Snap Turning Is OFF (Smooth Rotation");
                 }
 
             }
             // see https://docs.unity3d.com/Manual/xr_input.html
             Vector2 thumbstickAxisValue; //  where left (-1.0,0.0), right (1.0,0.0), up (0.0,1.0), down (0.0,-1.0)
-           
+
             if (handDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out thumbstickAxisValue))
             {
                 // Translate front/back Moving
                 trackingSpaceRoot.transform.position +=
                     handController.transform.forward * (speedInMeterPerSecond * Time.deltaTime * thumbstickAxisValue.y);
                 //// Translate Left/right Moving
-                  // do something here (Exercise tasks)
+                // do something here (Exercise tasks)
 
                 if (bModeSnapRotation)
                 {
