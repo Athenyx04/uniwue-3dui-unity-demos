@@ -782,6 +782,7 @@ GameObject:
   - component: {fileID: 30328067}
   - component: {fileID: 30328068}
   - component: {fileID: 30328069}
+  - component: {fileID: 30328070}
   m_Layer: 0
   m_Name: LeftHand Controller
   m_TagString: Untagged
@@ -1184,7 +1185,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 30328058}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a6060c751873994e8873e4f37c462ff, type: 3}
   m_Name: 
@@ -1194,6 +1195,47 @@ MonoBehaviour:
   anglePerClick: 45
   speedMultiplierInHighSpeed: 15
   angleMultiplierInHighSpeed: 5
+--- !u!114 &30328070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30328058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aeef776f8d180944b657e7b17389607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedInMeterPerSecond: 1
+  angleInDegreePerSecond: 25
+  anglePerClick: 45
+  highSpeedModeAccelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.2
+      outSlope: 0.2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5
+      value: 1
+      inSlope: 0.2
+      outSlope: 0.2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  highSpeedModeMaximumSpeed: 30
+  highSpeedModeMinimumSpeed: 1
 --- !u!1001 &40579427
 PrefabInstance:
   m_ObjectHideFlags: 0
