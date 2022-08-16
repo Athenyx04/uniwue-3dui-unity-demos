@@ -4818,7 +4818,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 288649107}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Reticule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20490,7 +20490,7 @@ GameObject:
   - component: {fileID: 1625090959}
   - component: {fileID: 1625090958}
   - component: {fileID: 1625090957}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27150,7 +27150,7 @@ GameObject:
   - component: {fileID: 2115969752}
   - component: {fileID: 2115969751}
   - component: {fileID: 2115969750}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

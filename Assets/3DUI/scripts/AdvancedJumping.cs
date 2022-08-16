@@ -15,6 +15,8 @@ public class AdvancedJumping : MonoBehaviour
 
     private RaycastHit lastRayCastHit;
     private bool bButtonWasPressed = false;
+    private Quaternion targetRotation;
+    private Quaternion cameraRotation;
 
 
     /// 
@@ -72,7 +74,7 @@ public class AdvancedJumping : MonoBehaviour
 
     private void getReticule()
     {
-        reticule = GameObject.Find("3dui-getting-started/Reticule");
+        reticule = GameObject.Find("/Reticule");
         if (reticule == null) Debug.LogError("Reticule null");
         else Debug.Log("Reticule NOT null");
     }
@@ -91,12 +93,19 @@ public class AdvancedJumping : MonoBehaviour
             Mathf.Infinity,
             1 << LayerMask.NameToLayer(RayCollisionLayer))) // 1 << because must use bit shifting to get final mask!
         {
+            Debug.Log("Hit Point S " + lastRayCastHit.point);
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             // Debug.Log("Ray collided with:  " + hit.collider.gameObject + " collision point: " + hit.point);
             Debug.DrawLine(hit.point, (hit.point + hit.normal * 2));
             lastRayCastHit = hit;
-            reticule.transform.Translate(hit.point);
+
+            reticule.SetActive(true);
+            reticule.transform.position = lastRayCastHit.point;
+            handDevice.TryGetFeatureValue(CommonUsages.deviceRotation, out Quaternion targetRotation);
+            reticule.transform.rotation = targetRotation;
         }
+        else
+            reticule.SetActive(false);
     }
 
 
