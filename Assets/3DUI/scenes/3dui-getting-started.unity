@@ -781,6 +781,7 @@ GameObject:
   - component: {fileID: 30328066}
   - component: {fileID: 30328067}
   - component: {fileID: 30328068}
+  - component: {fileID: 30328069}
   m_Layer: 0
   m_Name: LeftHand Controller
   m_TagString: Untagged
@@ -1127,13 +1128,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 30328058}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a99a14ee14e2a5542808969091d41ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedInMeterPerSecond: 30
-  angleInDegreePerSecond: 75
+  speedInMeterPerSecond: 1
+  angleInDegreePerSecond: 25
   anglePerClick: 45
 --- !u!114 &30328066
 MonoBehaviour:
@@ -1176,6 +1177,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuPrefab: {fileID: 5775998870538907926, guid: 660d47f6f740253488195fb5436beb02,
     type: 3}
+--- !u!114 &30328069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30328058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6060c751873994e8873e4f37c462ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedInMeterPerSecond: 1
+  angleInDegreePerSecond: 25
+  anglePerClick: 45
+  speedMultiplierInHighSpeed: 15
+  angleMultiplierInHighSpeed: 5
 --- !u!1001 &40579427
 PrefabInstance:
   m_ObjectHideFlags: 0
