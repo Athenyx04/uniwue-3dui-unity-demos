@@ -7,6 +7,8 @@ using UnityEngine.XR;
 public class AdvancedJumping : MonoBehaviour
 {
     public string RayCollisionLayer = "Default";
+    public GameObject TPTravelPoint;
+    public GameObject TPOriginPoint;
 
     private InputDevice handDevice;
     private GameObject handControllerGameObject;
@@ -19,7 +21,7 @@ public class AdvancedJumping : MonoBehaviour
     private Quaternion cameraRotation;
     private Camera userXRCamera;
     private Canvas canvas;
-
+    private Vector3 lastPosition;
 
     /// 
     ///  Events
@@ -31,7 +33,6 @@ public class AdvancedJumping : MonoBehaviour
         getRighHandController();
         GetXRRigMainCamera();
         getTrackingSpaceRoot();
-        getReticule();
     }
 
 
@@ -75,13 +76,6 @@ public class AdvancedJumping : MonoBehaviour
         handControllerGameObject = this.gameObject; // i.e. with this script component and an XR controller component
     }
 
-    private void getReticule()
-    {
-        reticule = GameObject.Find("/Reticule");
-        if (reticule == null) Debug.LogError("Reticule null");
-        else Debug.Log("Reticule NOT null");
-    }
-
     private void GetXRRigMainCamera()
     {
         var XRRig = GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.XRRig>(); // i.e Roomscale tracking space 
@@ -112,13 +106,11 @@ public class AdvancedJumping : MonoBehaviour
             Debug.DrawLine(hit.point, (hit.point + hit.normal * 2));
             lastRayCastHit = hit;
 
-            reticule.SetActive(true);
-            reticule.transform.position = lastRayCastHit.point;
-            handDevice.TryGetFeatureValue(CommonUsages.deviceRotation, out Quaternion targetRotation);
-            reticule.transform.LookAt(userXRCamera.transform.position);
+            TPTravelPoint.SetActive(true);
+            TPTravelPoint.transform.position = lastRayCastHit.point;
         }
         else
-            reticule.SetActive(false);
+            TPTravelPoint.SetActive(false);
     }
 
 
@@ -135,6 +127,9 @@ public class AdvancedJumping : MonoBehaviour
                 if (!triggerButton && bButtonWasPressed)
                 {
                     bButtonWasPressed = false;
+                    lastPosition = trackingSpaceRoot.transform.position;
+                    TPOriginPoint.transform.position = lastPosition;
+                    TPOriginPoint.SetActive(true);
                     trackingSpaceRoot.transform.position = lastRayCastHit.point;
                     Debug.Log("Jumping! " + Time.deltaTime);
                 }
