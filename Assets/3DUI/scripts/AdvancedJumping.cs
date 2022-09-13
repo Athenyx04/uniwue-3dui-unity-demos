@@ -106,7 +106,7 @@ public class AdvancedJumping : MonoBehaviour
             Mathf.Infinity,
             1 << LayerMask.NameToLayer(RayCollisionLayer))) // 1 << because must use bit shifting to get final mask!
         {
-            Debug.Log("Hit Point S " + lastRayCastHit.point);
+            //Debug.Log("Hit Point S " + lastRayCastHit.point);
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             // Debug.Log("Ray collided with:  " + hit.collider.gameObject + " collision point: " + hit.point);
             Debug.DrawLine(hit.point, (hit.point + hit.normal * 2));

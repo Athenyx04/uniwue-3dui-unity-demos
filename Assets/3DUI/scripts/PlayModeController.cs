@@ -61,8 +61,7 @@ public class PlayModeController : MonoBehaviour
                 if (!bButtonPressedNow && bButtonWasPressed) // Button was released?
                 {
                     bButtonWasPressed = false;
-                    Debug.Log("Button B pressed on Right Controller");
-                    EditorApplication.ExecuteMenuItem("Edit/Play");
+                    Debug.Log("Button B pressed on Right Controller");    
                 }
             }
 
@@ -76,7 +75,6 @@ public class PlayModeController : MonoBehaviour
                 {
                     gripButtonWasPressed = false;
                     Debug.Log("Grip Button pressed on Right Controller");
-                    EditorApplication.ExecuteMenuItem("GameObject/3D Object/Cube");
                 }
             }
         }
