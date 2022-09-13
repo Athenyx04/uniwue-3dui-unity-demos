@@ -17,6 +17,8 @@ public class AdvancedJumping : MonoBehaviour
     private bool bButtonWasPressed = false;
     private Quaternion targetRotation;
     private Quaternion cameraRotation;
+    private Camera userXRCamera;
+    private Canvas canvas;
 
 
     /// 
@@ -27,6 +29,7 @@ public class AdvancedJumping : MonoBehaviour
     {
         getRightHandDevice();
         getRighHandController();
+        GetXRRigMainCamera();
         getTrackingSpaceRoot();
         getReticule();
     }
@@ -79,6 +82,16 @@ public class AdvancedJumping : MonoBehaviour
         else Debug.Log("Reticule NOT null");
     }
 
+    private void GetXRRigMainCamera()
+    {
+        var XRRig = GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.XRRig>(); // i.e Roomscale tracking space 
+        userXRCamera = XRRig.GetComponentInChildren<Camera>();
+        if (userXRCamera == null)
+        {
+            Debug.LogError("MainCamera in XR Rig not found! (XR Rig should be parent of this game object:)" + gameObject + " =>> cannot open help menu");
+        }
+    }
+
 
     /// 
     ///  Update Functions 
@@ -102,7 +115,7 @@ public class AdvancedJumping : MonoBehaviour
             reticule.SetActive(true);
             reticule.transform.position = lastRayCastHit.point;
             handDevice.TryGetFeatureValue(CommonUsages.deviceRotation, out Quaternion targetRotation);
-            reticule.transform.rotation = targetRotation;
+            reticule.transform.LookAt(userXRCamera.transform.position);
         }
         else
             reticule.SetActive(false);
