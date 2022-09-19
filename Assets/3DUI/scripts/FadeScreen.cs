@@ -36,6 +36,8 @@ public class FadeScreen : MonoBehaviour
     public IEnumerator FadeRoutine(float alphaIn, float alphaOut)
     {
         float timer = 0;
+
+        // On each deltaTime until the end of fadeDuration, linearly increment or decrement transparency
         while(timer <= fadeDuration)
         {
             Color newColor = fadeColor;

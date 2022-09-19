@@ -18,14 +18,17 @@ public class AdvancedRayPicking : MonoBehaviour
     private GameObject trackingSpaceRoot;
 
     private RaycastHit lastRayCastHit;
+
     private bool bButtonWasPressed = false;
     private bool isStickWasPressed = false;
     private bool isSecondaryWasPressed = false;
     private bool gripButtonWasPressed = false;
+
     private GameObject objectPickedUP = null;
     private GameObject previousObjectCollidingWithRay = null;
     private GameObject lastObjectCollidingWithRay = null;
     private bool IsThereAnewObjectCollidingWithRay = false;
+
     private bool rotationMode = false;
     private Vector3 scaleChange;
 
@@ -39,20 +42,21 @@ public class AdvancedRayPicking : MonoBehaviour
         GetRightHandDevice();
         GetRighHandController();
         GetTrackingSpaceRoot();
-        scaleChange = new Vector3(scaleIncrement, scaleIncrement, scaleIncrement);
+        scaleChange = new Vector3(scaleIncrement, scaleIncrement, scaleIncrement); // Vector in which the increment for scale is saved, dynamically
     }
 
     void Update()
     {
-        if (objectPickedUP == null)
+        if (objectPickedUP == null) // When no object is picked up, get the object pointed and outline it
         {
             GetTargetedObjectCollidingWithRayCasting();
             UpdateObjectCollidingWithRay();
             UpdateFlagNewObjectCollidingWithRay();
             OutlineObjectCollidingWithRay();
         }
-        AttachOrDetachTargetedObject();
+        AttachOrDetachTargetedObject(); // Pick and object
         
+        // Toggle rotation or scale/move modes
         if (rotationMode)
         {
             RotateTargetedObjectOnLocalUpAxis();
@@ -179,6 +183,8 @@ public class AdvancedRayPicking : MonoBehaviour
         }
     }
 
+
+    // Pick up or drop an object
     private void AttachOrDetachTargetedObject()
     {
         if (righHandDevice.isValid) // still connected?
@@ -192,8 +198,9 @@ public class AdvancedRayPicking : MonoBehaviour
                 }
                 if (!bButtonAPressedNow && bButtonWasPressed) // Button was released?
                 {
-                    if (objectPickedUP != null) // already pick up an object?
+                    if (objectPickedUP != null) // already pick up an object? then drop
                     {
+                        // Generate backwards sound and a high-low long-short vibration
                         GenerateSoundHandler(-1);
                         StartCoroutine(GenerateVibrationsHandler(2, 0.5f, 0.2f, 1.0f, 0.4f, 0.3f));
 
@@ -211,10 +218,12 @@ public class AdvancedRayPicking : MonoBehaviour
                     }
                     else
                     {
+                        // Generate normal sound and a low-high short-long vibration
                         GenerateSoundHandler(1);
                         StartCoroutine(GenerateVibrationsHandler(2, 0.2f, 0.5f, 0.4f, 1.0f, 0.3f));
 
                         objectPickedUP = lastRayCastHit.collider.gameObject;
+                        // In order to move with the controller
                         objectPickedUP.transform.parent = gameObject.transform; // see Transform.parent https://docs.unity3d.com/ScriptReference/Transform-parent.html?_ga=2.21222203.1039085328.1595859162-225834982.1593000816
                         if (PickedUpObjectPositionNotControlledByPhysics)
                         {
@@ -231,7 +240,6 @@ public class AdvancedRayPicking : MonoBehaviour
             }
 
             // check rotation mode
-            // see https://docs.unity3d.com/Manual/xr_input.html
             if (righHandDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out bool isStickPressedNow))
             {
                 if (isStickPressedNow)
@@ -240,7 +248,9 @@ public class AdvancedRayPicking : MonoBehaviour
                 }
                 else if (isStickWasPressed) // release
                 {
+                    // Toggle rotation mode
                     rotationMode = !rotationMode;
+                    // Then create sound and 2 short vibrations
                     GenerateSoundHandler(2);
                     StartCoroutine(GenerateVibrationsHandler(2, 0.5f, 0.2f, 0.1f, 0.2f, 0.2f));
                     isStickWasPressed = false;
@@ -281,7 +291,7 @@ public class AdvancedRayPicking : MonoBehaviour
                     if (thumbstickAxis.x > thumbstickDeadZone || thumbstickAxis.x < -thumbstickDeadZone)
                     {
                         objectPickedUP.transform.localScale += scaleChange * thumbstickAxis.x;
-                        //Debug.Log("Move object along ray: " + objectPickedUP + " axis: " + thumbstickAxis);
+                        //Debug.Log("Scale object: " + objectPickedUP + " axis: " + thumbstickAxis);
                     }
                 }
             }
@@ -303,6 +313,8 @@ public class AdvancedRayPicking : MonoBehaviour
                     else if (isSecondaryWasPressed) // release
                     {
                         isSecondaryWasPressed = false;
+
+                        // Destroy and remove from picked up on release
                         Destroy(objectPickedUP);
                         objectPickedUP = null;
                     }
@@ -326,8 +338,14 @@ public class AdvancedRayPicking : MonoBehaviour
                     else if (gripButtonWasPressed) // release
                     {
                         gripButtonWasPressed = false;
+
+                        // If object does not have a Rigidbody component, add it
                         if (objectPickedUP.GetComponent<Rigidbody>() == null)
+                        {
                             objectPickedUP.AddComponent<Rigidbody>();
+                        }
+                        
+                        // Always toggle gravity and vibrate
                         objectPickedUP.GetComponent<Rigidbody>().useGravity = !objectPickedUP.GetComponent<Rigidbody>().useGravity;
                         StartCoroutine(GenerateVibrationsHandler(3, 0.2f, 0.5f, 0.1f, 0.2f, 0.2f));
                     }
@@ -348,7 +366,7 @@ public class AdvancedRayPicking : MonoBehaviour
                     {
                         objectPickedUP.transform.Rotate(Vector3.up, rotationIncrement * thumbstickAxis.x, Space.Self);
                     }
-                    //Debug.Log("Rotate Object: " + objectPickedUP + "axis " + thumbstickAxis);
+                    //Debug.Log("Rotate Object X: " + objectPickedUP + "axis " + thumbstickAxis);
                 }
             }
         }
@@ -366,12 +384,13 @@ public class AdvancedRayPicking : MonoBehaviour
                     {
                         objectPickedUP.transform.Rotate(Vector3.right, rotationIncrement * thumbstickAxis.y, Space.Self);
                     }
-                    //Debug.Log("Rotate Object: " + objectPickedUP + "axis " + thumbstickAxis);
+                    //Debug.Log("Rotate Object Y: " + objectPickedUP + "axis " + thumbstickAxis);
                 }
             }
         }
     }
 
+    // Generate Sound on different pitches
     private void GenerateSoundHandler(int pitch)
     {
         AudioSource audioSource = GetComponent<AudioSource>();
@@ -381,7 +400,7 @@ public class AdvancedRayPicking : MonoBehaviour
             {
                 case -1:
                     audioSource.pitch = -1;
-                    audioSource.timeSamples = audioSource.clip.samples - 1;
+                    audioSource.timeSamples = audioSource.clip.samples - 1; // Audio timestamp to the end to play in reverse
                     audioSource.Play();
                     break;
                 case 2:
@@ -402,6 +421,7 @@ public class AdvancedRayPicking : MonoBehaviour
         }
     }
 
+    // Generate Vibrations
     private IEnumerator GenerateVibrationsHandler(int bursts, float evenAmplitude, float oddAmplitude, float evenDuration, float oddDuration, float waitTime)
     {
         HapticCapabilities capabilities;

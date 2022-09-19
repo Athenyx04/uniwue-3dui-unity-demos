@@ -7,22 +7,17 @@ using UnityEngine.XR;
 public class AdvancedJumping : MonoBehaviour
 {
     public string RayCollisionLayer = "Default";
-    public GameObject TPTravelPoint;
-    public GameObject TPOriginPoint;
+    public GameObject TPTravelPoint; // End point of jump
+    public GameObject TPOriginPoint; // Original point on jump
     public FadeScreen fadeScreen;
 
     private InputDevice handDevice;
     private GameObject handControllerGameObject;
     private GameObject trackingSpaceRoot;
-    private GameObject reticule;
 
     private RaycastHit lastRayCastHit;
+
     private bool bButtonWasPressed = false;
-    private Quaternion targetRotation;
-    private Quaternion cameraRotation;
-    private Camera userXRCamera;
-    private Canvas canvas;
-    private Vector3 lastPosition;
 
     /// 
     ///  Events
@@ -32,7 +27,6 @@ public class AdvancedJumping : MonoBehaviour
     {
         getRightHandDevice();
         getRighHandController();
-        GetXRRigMainCamera();
         getTrackingSpaceRoot();
     }
 
@@ -77,16 +71,6 @@ public class AdvancedJumping : MonoBehaviour
         handControllerGameObject = this.gameObject; // i.e. with this script component and an XR controller component
     }
 
-    private void GetXRRigMainCamera()
-    {
-        var XRRig = GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.XRRig>(); // i.e Roomscale tracking space 
-        userXRCamera = XRRig.GetComponentInChildren<Camera>();
-        if (userXRCamera == null)
-        {
-            Debug.LogError("MainCamera in XR Rig not found! (XR Rig should be parent of this game object:)" + gameObject + " =>> cannot open help menu");
-        }
-    }
-
 
     /// 
     ///  Update Functions 
@@ -101,17 +85,16 @@ public class AdvancedJumping : MonoBehaviour
             Mathf.Infinity,
             1 << LayerMask.NameToLayer(RayCollisionLayer))) // 1 << because must use bit shifting to get final mask!
         {
-            //Debug.Log("Hit Point S " + lastRayCastHit.point);
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            // Debug.Log("Ray collided with:  " + hit.collider.gameObject + " collision point: " + hit.point);
             Debug.DrawLine(hit.point, (hit.point + hit.normal * 2));
-            lastRayCastHit = hit;
+            lastRayCastHit = hit; // Register last valid point hit
 
+            // Translate reticle to valid point hit
             TPTravelPoint.SetActive(true);
             TPTravelPoint.transform.position = lastRayCastHit.point;
         }
         else
-            TPTravelPoint.SetActive(false);
+            TPTravelPoint.SetActive(false); // If no valid point is selected
     }
 
 
@@ -128,12 +111,11 @@ public class AdvancedJumping : MonoBehaviour
                 if (!triggerButton && bButtonWasPressed)
                 {
                     bButtonWasPressed = false;
-                    fadeScreen.FadeOut();
-                    lastPosition = trackingSpaceRoot.transform.position;
-                    TPOriginPoint.transform.position = lastPosition;
-                    TPOriginPoint.SetActive(true);
-                    trackingSpaceRoot.transform.position = lastRayCastHit.point;
-                    fadeScreen.FadeIn();
+                    fadeScreen.FadeOut(); // After releasing the button, the fade out transition starts
+                    TPOriginPoint.transform.position = trackingSpaceRoot.transform.position; // The Origin marker goes to the XR Rig position
+                    TPOriginPoint.SetActive(true); // And activates
+                    trackingSpaceRoot.transform.position = lastRayCastHit.point; // The XR Rig moves to the last raycasted point
+                    fadeScreen.FadeIn(); // And the fade in transition starts
                     Debug.Log("Jumping! " + Time.deltaTime);
                 }
             }

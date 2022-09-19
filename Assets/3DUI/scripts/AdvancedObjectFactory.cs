@@ -5,24 +5,31 @@ using UnityEngine.UI;
 
 public class AdvancedObjectFactory : MonoBehaviour
 {
+    // Dropdown menu selection
     public Dropdown prefabObject;
+
+    private int prefabType;
+    private GameObject SelectedPrefab;
+    private List<GameObject> SelectedList;
+
+    // Game object possible types and lists
     public GameObject CylinderPrefab;
     public GameObject CapsulePrefab;
     public GameObject BlockPrefab;
     public GameObject SpherePrefab;
-    private GameObject SelectedPrefab;
-    private int prefabType;
+    
     private List<GameObject> BlocksCreated = new List<GameObject>();
     private List<GameObject> SpheresCreated = new List<GameObject>();
     private List<GameObject> CylindersCreated = new List<GameObject>();
     private List<GameObject> CapsulesCreated = new List<GameObject>();
-    private List<GameObject> SelectedList;
 
     void Start()
     {
+        // Default to Cylinder
         SelectedPrefab = CylinderPrefab;
         SelectedList = CylindersCreated;
 
+        // Create the listener for the Dropdown menu
         prefabObject.onValueChanged.AddListener(delegate
         {
             prefabObjectHasChanged(prefabObject);
@@ -30,7 +37,7 @@ public class AdvancedObjectFactory : MonoBehaviour
         );
     }
 
-    public void prefabObjectHasChanged(Dropdown sender)
+    public void prefabObjectHasChanged(Dropdown sender) // Whenever the selection changes, change the prefab
     {
         prefabType = sender.value;
         switch (sender.value)
@@ -59,7 +66,7 @@ public class AdvancedObjectFactory : MonoBehaviour
         }
     }
 
-    public void CreatePrefab(Transform Where)
+    public void CreatePrefab(Transform Where) // Create selected prefab
     {
         GameObject prefabInstance = Instantiate(SelectedPrefab, Where.position, Quaternion.identity);
 
@@ -68,7 +75,7 @@ public class AdvancedObjectFactory : MonoBehaviour
         SelectedList.Add(prefabInstance);
     }
 
-    public void DestroyAllOfType()
+    public void DestroyAllOfType() // Destroy all of selected prefab
     {
         foreach (var b in SelectedList)
         {
@@ -76,39 +83,7 @@ public class AdvancedObjectFactory : MonoBehaviour
         }
     }
 
-    public void CreateBlockPrefab(Transform Where)
-    {
-        GameObject blockInstance = Instantiate(BlockPrefab, Where.position, Quaternion.identity);
- 
-        blockInstance.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        BlocksCreated.Add(blockInstance);
-    }
-
-    public void CreateSpherePrefab(Transform Where)
-    {
-        GameObject sphereInstance = Instantiate(SpherePrefab, Where.position, Quaternion.identity);
-
-        sphereInstance.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        SpheresCreated.Add(sphereInstance);
-    }
-
-    public void DestroyAllCreatedBlocks()
-    {
-       foreach (var b in BlocksCreated)
-        {
-            Destroy(b);
-        }
-    }
-
-    public void DestroyAllCreatedSpheres()
-    {
-        foreach (var s in SpheresCreated)
-        {
-            Destroy(s);
-        }
-    }
-
-    public void DestroyEveythingCreated()
+    public void DestroyEveythingCreated() // Destroy every created prefab of this OF
     {
         SelectedList = CylindersCreated;
         DestroyAllOfType();
