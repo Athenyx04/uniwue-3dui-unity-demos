@@ -127,7 +127,7 @@ RectTransform:
   m_GameObject: {fileID: 4615311930109317846}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.65938544, y: 1.0610782, z: 0.75094}
   m_Children: []
   m_Father: {fileID: 4615311929042038346}
   m_RootOrder: 1
@@ -180,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4615311930194476527}
   m_Layer: 0
-  m_Name: HelpMenu
+  m_Name: helpmenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,7 +228,7 @@ RectTransform:
   m_GameObject: {fileID: 4615311930297126319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.61001, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4615311929042038346}
   m_RootOrder: 0

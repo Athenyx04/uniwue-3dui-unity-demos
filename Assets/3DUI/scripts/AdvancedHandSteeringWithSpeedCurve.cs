@@ -91,6 +91,7 @@ public class AdvancedHandSteeringWithSpeedCurve: MonoBehaviour
                 else if(isStickWasPressed) // release
                 {
                     bModeSnapRotation = !bModeSnapRotation;
+                    StartCoroutine(GenerateVibrationsHandler(2, 0.5f, 0.2f, 0.1f, 0.2f, 0.2f));
                     isStickWasPressed = false;
                     if(bModeSnapRotation) Debug.Log("Snap Turning Is ON");
                     else Debug.Log("Snap Turning Is OFF (Smooth Rotation)");
@@ -110,10 +111,16 @@ public class AdvancedHandSteeringWithSpeedCurve: MonoBehaviour
                 {
                     bModeHighSpeed = !bModeHighSpeed;
                     isTriggerWasPressed = false;
-                    if (bModeHighSpeed) Debug.Log("High Speed Is ON");
+                    StartCoroutine(GenerateVibrationsHandler(4, 0.5f, 0.2f, 0.1f, 0.1f, 0.2f));
+                    if (bModeHighSpeed)
+                    {
+                        Debug.Log("High Speed Is ON");
+                        StartCoroutine(GenerateVibrationsHandler(4, 0.5f, 0.2f, 0.1f, 0.1f, 0.2f));
+                    } 
                     else
                     {
                         Debug.Log("High Speed Is OFF (Low Speed)");
+                        StartCoroutine(GenerateVibrationsHandler(4, 0.2f, 0.5f, 0.1f, 0.1f, 0.2f));
                         speed = speedInMeterPerSecond; // Return back to normal speed
                         curveDeltaTime = 0; // Reset the delta time curve
                     }
@@ -172,6 +179,29 @@ public class AdvancedHandSteeringWithSpeedCurve: MonoBehaviour
 
             }
 
+        }
+    }
+
+    private IEnumerator GenerateVibrationsHandler(int bursts, float evenAmplitude, float oddAmplitude, float evenDuration, float oddDuration, float waitTime)
+    {
+        HapticCapabilities capabilities;
+        if (handDevice.TryGetHapticCapabilities(out capabilities))
+        {
+            if (capabilities.supportsImpulse)
+            {
+                for (int i = bursts; i != 0; i--)
+                {
+                    if (i % 2 == 0)
+                        handDevice.SendHapticImpulse(0, evenAmplitude, evenDuration);
+                    else
+                        handDevice.SendHapticImpulse(0, oddAmplitude, oddDuration);
+                    yield return new WaitForSeconds(waitTime);
+                }
+            }
+            else
+            {
+                Debug.LogError("No Haptic Capabilities!");
+            }
         }
     }
 }

@@ -193,7 +193,10 @@ public class AdvancedRayPicking : MonoBehaviour
                 if (!bButtonAPressedNow && bButtonWasPressed) // Button was released?
                 {
                     if (objectPickedUP != null) // already pick up an object?
-                    { 
+                    {
+                        GenerateSoundHandler(-1);
+                        StartCoroutine(GenerateVibrationsHandler(2, 0.5f, 0.2f, 1.0f, 0.4f, 0.3f));
+
                         if (PickedUpObjectPositionNotControlledByPhysics)
                         {
                             Rigidbody rb = objectPickedUP.GetComponent<Rigidbody>();
@@ -208,9 +211,9 @@ public class AdvancedRayPicking : MonoBehaviour
                     }
                     else
                     {
-                        GenerateSound(); 
-                        GenerateVibrations();
-                        
+                        GenerateSoundHandler(1);
+                        StartCoroutine(GenerateVibrationsHandler(2, 0.2f, 0.5f, 0.4f, 1.0f, 0.3f));
+
                         objectPickedUP = lastRayCastHit.collider.gameObject;
                         objectPickedUP.transform.parent = gameObject.transform; // see Transform.parent https://docs.unity3d.com/ScriptReference/Transform-parent.html?_ga=2.21222203.1039085328.1595859162-225834982.1593000816
                         if (PickedUpObjectPositionNotControlledByPhysics)
@@ -238,7 +241,8 @@ public class AdvancedRayPicking : MonoBehaviour
                 else if (isStickWasPressed) // release
                 {
                     rotationMode = !rotationMode;
-                    // Add Sound Cue
+                    GenerateSoundHandler(2);
+                    StartCoroutine(GenerateVibrationsHandler(2, 0.5f, 0.2f, 0.1f, 0.2f, 0.2f));
                     isStickWasPressed = false;
                     if (rotationMode) Debug.Log("Rotation Mode is ON");
                     else Debug.Log("Rotation Mode is OFF");
@@ -325,6 +329,7 @@ public class AdvancedRayPicking : MonoBehaviour
                         if (objectPickedUP.GetComponent<Rigidbody>() == null)
                             objectPickedUP.AddComponent<Rigidbody>();
                         objectPickedUP.GetComponent<Rigidbody>().useGravity = !objectPickedUP.GetComponent<Rigidbody>().useGravity;
+                        StartCoroutine(GenerateVibrationsHandler(3, 0.2f, 0.5f, 0.1f, 0.2f, 0.2f));
                     }
                 }
             }
@@ -367,27 +372,29 @@ public class AdvancedRayPicking : MonoBehaviour
         }
     }
 
-    private void GenerateVibrations()
-    {
-        HapticCapabilities capabilities;
-        if (righHandDevice.TryGetHapticCapabilities(out capabilities))
-        {
-            if (capabilities.supportsImpulse)
-            {
-                uint channel = 0;
-                float amplitude = 0.5f;
-                float duration = 1.0f;
-                righHandDevice.SendHapticImpulse(channel, amplitude, duration);
-            }
-        }
-    }
-
-    private void GenerateSound()
+    private void GenerateSoundHandler(int pitch)
     {
         AudioSource audioSource = GetComponent<AudioSource>();
-        if (audioSource !=null)
+        if (audioSource != null)
         {
-            audioSource.Play();
+            switch (pitch)
+            {
+                case -1:
+                    audioSource.pitch = -1;
+                    audioSource.timeSamples = audioSource.clip.samples - 1;
+                    audioSource.Play();
+                    break;
+                case 2:
+                    audioSource.pitch = 2;
+                    audioSource.timeSamples = 0;
+                    audioSource.Play();
+                    break;
+                default:
+                    audioSource.pitch = 1;
+                    audioSource.timeSamples = 0;
+                    audioSource.Play();
+                    break;
+            }
         }
         else
         {
@@ -395,4 +402,26 @@ public class AdvancedRayPicking : MonoBehaviour
         }
     }
 
+    private IEnumerator GenerateVibrationsHandler(int bursts, float evenAmplitude, float oddAmplitude, float evenDuration, float oddDuration, float waitTime)
+    {
+        HapticCapabilities capabilities;
+        if (righHandDevice.TryGetHapticCapabilities(out capabilities))
+        {
+            if (capabilities.supportsImpulse)
+            {
+                for (int i = bursts; i != 0; i--)
+                {
+                    if (i%2 == 0)
+                        righHandDevice.SendHapticImpulse(0, evenAmplitude, evenDuration);
+                    else
+                        righHandDevice.SendHapticImpulse(0, oddAmplitude, oddDuration);
+                    yield return new WaitForSeconds(waitTime);
+                } 
+            }
+            else
+            {
+                Debug.LogError("No Haptic Capabilities!");
+            }
+        }
+    }
 }
