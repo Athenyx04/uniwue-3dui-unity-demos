@@ -777,11 +777,8 @@ GameObject:
   - component: {fileID: 30328061}
   - component: {fileID: 30328060}
   - component: {fileID: 30328064}
-  - component: {fileID: 30328065}
-  - component: {fileID: 30328066}
   - component: {fileID: 30328067}
   - component: {fileID: 30328068}
-  - component: {fileID: 30328069}
   - component: {fileID: 30328070}
   - component: {fileID: 30328071}
   m_Layer: 0
@@ -1123,34 +1120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuPrefab: {fileID: 4615311930194476526, guid: 84d1b8ee9e818074ea381987f4b6596d,
     type: 3}
---- !u!114 &30328065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 30328058}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a99a14ee14e2a5542808969091d41ebc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedInMeterPerSecond: 1
-  angleInDegreePerSecond: 25
-  anglePerClick: 45
---- !u!114 &30328066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 30328058}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1501e67952519c4f8598bf83d7b5280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RayCollisionLayer: Default
 --- !u!114 &30328067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1179,23 +1148,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuPrefab: {fileID: 5775998870538907926, guid: 660d47f6f740253488195fb5436beb02,
     type: 3}
---- !u!114 &30328069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 30328058}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6060c751873994e8873e4f37c462ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedInMeterPerSecond: 1
-  angleInDegreePerSecond: 25
-  anglePerClick: 45
-  speedMultiplierInHighSpeed: 15
-  angleMultiplierInHighSpeed: 5
 --- !u!114 &30328070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4564,6 +4516,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fader Screen
       objectReference: {fileID: 0}
+    - target: {fileID: 7332116008276746048, guid: 481f06b2fe21b8c4f90ebab500725398,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7332116008276746049, guid: 481f06b2fe21b8c4f90ebab500725398,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4602,7 +4559,7 @@ PrefabInstance:
     - target: {fileID: 7332116008276746049, guid: 481f06b2fe21b8c4f90ebab500725398,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7332116008276746049, guid: 481f06b2fe21b8c4f90ebab500725398,
         type: 3}
@@ -4618,6 +4575,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7332116008276746052, guid: 481f06b2fe21b8c4f90ebab500725398,
+        type: 3}
+      propertyPath: fadeDuration
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7332116008276746052, guid: 481f06b2fe21b8c4f90ebab500725398,
+        type: 3}
+      propertyPath: fadeOnStart
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 481f06b2fe21b8c4f90ebab500725398, type: 3}
@@ -23487,9 +23454,7 @@ GameObject:
   - component: {fileID: 1860304538}
   - component: {fileID: 1860304537}
   - component: {fileID: 1860304536}
-  - component: {fileID: 1860304532}
   - component: {fileID: 1860304533}
-  - component: {fileID: 1860304534}
   - component: {fileID: 1860304535}
   m_Layer: 0
   m_Name: RightHand Controller
@@ -23513,23 +23478,6 @@ Transform:
   m_Father: {fileID: 782708800}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -85.340004, y: 0, z: 0}
---- !u!114 &1860304532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1860304530}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95fde79e4020716488fa62f11faf1ddf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  translationIncrement: 0.4
-  rotationIncrement: 1
-  thumbstickDeadZone: 0.5
-  RayCollisionLayer: Default
-  PickedUpObjectPositionNotControlledByPhysics: 1
 --- !u!82 &1860304533
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23626,18 +23574,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1860304534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1860304530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5eb91f11a05e6c44bbf0244fc736716e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1860304535
 MonoBehaviour:
   m_ObjectHideFlags: 0

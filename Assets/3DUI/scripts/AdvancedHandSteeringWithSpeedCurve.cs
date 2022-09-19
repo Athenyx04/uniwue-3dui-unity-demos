@@ -150,7 +150,7 @@ public class AdvancedHandSteeringWithSpeedCurve: MonoBehaviour
                 }
                 else if (bModeHighSpeed && curveDeltaTime != 0)
                     curveDeltaTime = 0;
-               
+
                 //// Translate Left/right Moving
                 // do something here (Exercise tasks)
 
