@@ -9,6 +9,7 @@ public class AdvancedJumping : MonoBehaviour
     public string RayCollisionLayer = "Default";
     public GameObject TPTravelPoint;
     public GameObject TPOriginPoint;
+    public FadeScreen fadeScreen;
 
     private InputDevice handDevice;
     private GameObject handControllerGameObject;
@@ -127,10 +128,12 @@ public class AdvancedJumping : MonoBehaviour
                 if (!triggerButton && bButtonWasPressed)
                 {
                     bButtonWasPressed = false;
+                    fadeScreen.FadeOut();
                     lastPosition = trackingSpaceRoot.transform.position;
                     TPOriginPoint.transform.position = lastPosition;
                     TPOriginPoint.SetActive(true);
                     trackingSpaceRoot.transform.position = lastRayCastHit.point;
+                    fadeScreen.FadeIn();
                     Debug.Log("Jumping! " + Time.deltaTime);
                 }
             }
